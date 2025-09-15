@@ -11,9 +11,14 @@ bot.py
  - TOKEN و SERVICE_JSON و SHEET_NAME را مطابق اطلاعات خودتان تنظیم کنید
 """
 
-import sys, os
-sys.path.append(os.path.dirname(__file__))
-import imghdr
+import sys, os, importlib.util
+
+# بارگذاری imghdr محلی
+imghdr_path = os.path.join(os.path.dirname(__file__), "imghdr.py")
+spec = importlib.util.spec_from_file_location("imghdr", imghdr_path)
+imghdr = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(imghdr)
+sys.modules["imghdr"] = imghdr
 
 from telegram import Update, ReplyKeyboardMarkup, ReplyKeyboardRemove
 from telegram.ext import (
@@ -24,6 +29,7 @@ from telegram.ext import (
 import gspread
 import re
 import logging
+
 
 
 
