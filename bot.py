@@ -11,19 +11,20 @@ bot.py
  - TOKEN و SERVICE_JSON و SHEET_NAME را مطابق اطلاعات خودتان تنظیم کنید
 """
 
+import sys, os
+sys.path.append(os.path.dirname(__file__))
+import imghdr
+
 from telegram import Update, ReplyKeyboardMarkup, ReplyKeyboardRemove
 from telegram.ext import (
     Updater, CommandHandler, MessageHandler, Filters,
     CallbackContext, ConversationHandler
 )
 
-import sys, os
-sys.path.append(os.path.dirname(__file__))
-import imghdr
-
 import gspread
 import re
 import logging
+
 
 
 # ---------------- تنظیمات ----------------
