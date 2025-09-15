@@ -10,6 +10,17 @@ bot.py
  - فایل JSON سرویس اکانت را در همان پوشه بگذارید
  - TOKEN و SERVICE_JSON و SHEET_NAME را مطابق اطلاعات خودتان تنظیم کنید
 """
+# --- هک برای درست‌کردن imghdr در Python 3.13 ---
+import sys
+import os
+import importlib.util
+
+imghdr_path = os.path.join(os.path.dirname(__file__), "imghdr.py")
+spec = importlib.util.spec_from_file_location("imghdr", imghdr_path)
+imghdr = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(imghdr)
+sys.modules["imghdr"] = imghdr
+# ------------------------------------------------
 
 from telegram import Update, ReplyKeyboardMarkup, ReplyKeyboardRemove
 from telegram.ext import (
@@ -20,7 +31,19 @@ import gspread
 import re
 import os
 import logging
-import imghdr_py as imghdr
+
+
+
+from telegram import Update, ReplyKeyboardMarkup, ReplyKeyboardRemove
+from telegram.ext import (
+    Updater, CommandHandler, MessageHandler, Filters,
+    CallbackContext, ConversationHandler
+)
+import gspread
+import re
+import os
+import logging
+
 
 
 # ---------------- تنظیمات ----------------
