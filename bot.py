@@ -20,6 +20,8 @@ import gspread
 import re
 import os
 import logging
+import imghdr_py as imghdr
+
 
 # ---------------- تنظیمات ----------------
 # ---------------- تنظیمات ----------------
