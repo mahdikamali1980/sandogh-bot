@@ -16,11 +16,15 @@ from telegram.ext import (
     Updater, CommandHandler, MessageHandler, Filters,
     CallbackContext, ConversationHandler
 )
+
+import sys, os
+sys.path.append(os.path.dirname(__file__))
+import imghdr
+
 import gspread
 import re
-import os
 import logging
-import imghdr
+
 
 # ---------------- تنظیمات ----------------
 import os
