@@ -1,4 +1,4 @@
-python-telegram-bot==13.7
+python-telegram-bot==20.7
 gspread==5.8.0
 google-auth==2.23.0
 flask==2.3.3
