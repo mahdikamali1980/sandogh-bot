@@ -13,13 +13,16 @@ bot.py
 
 import sys, os, importlib.util
 
-# بارگذاری imghdr محلی
-imghdr_path = os.path.join(os.path.dirname(__file__), "imghdr.py")
-spec = importlib.util.spec_from_file_location("imghdr", imghdr_path)
-imghdr = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(imghdr)
-sys.modules["imghdr"] = imghdr
+import filetype
 
+# ... کدهای دیگر ...
+file_path = "downloaded_image.jpg"
+kind = filetype.guess(file_path)
+if kind is None:
+    print('Cannot guess file type!')
+else:
+    image_type = kind.extension
+    mime_type = kind.mime
 # اصلاح خط imports
 from telegram import Update, ReplyKeyboardMarkup, ReplyKeyboardRemove
 from telegram.ext import (
