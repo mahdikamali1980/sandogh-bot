@@ -13,7 +13,7 @@ bot.py
 
 from telegram import Update, ReplyKeyboardMarkup, ReplyKeyboardRemove
 from telegram.ext import (
-    Updater, CommandHandler, MessageHandler, Filters,
+    Application, CommandHandler, MessageHandler, filters,
     CallbackContext, ConversationHandler
 )
 import gspread
@@ -1241,15 +1241,15 @@ def menu_router(update: Update, context: CallbackContext):
 
 # ---------- main ----------
 def main():
-    updater = Updater(TOKEN, use_context=True)
+   application = Application.builder().token(TOKEN).build()
     dp = updater.dispatcher
 
     # ثبت‌نام conversation (/start)
     reg_conv = ConversationHandler(
         entry_points=[CommandHandler('start', start)],
         states={
-            REG_MOBILE: [MessageHandler(Filters.text & ~Filters.command, reg_mobile)],
-            REG_NID: [MessageHandler(Filters.text & ~Filters.command, reg_nid)],
+            REG_MOBILE: [MessageHandler(filters.TEXT & ~filters.COMMAND, reg_mobile)],
+            REG_NID: [MessageHandler(filters.TEXT & ~filters.COMMAND, reg_nid)],
         },
         fallbacks=[],
         allow_reentry=True
@@ -1259,7 +1259,7 @@ def main():
     # conversation صورتحساب - SAVING_ASK_ACCOUNT
     save_conv = ConversationHandler(
         entry_points=[MessageHandler(Filters.regex(r"^📜\s*صورتحساب$"), savings_statement_start)],
-        states={SAVING_ASK_ACCOUNT: [MessageHandler(Filters.text & ~Filters.command, savings_statement_check)]},
+        states={SAVING_ASK_ACCOUNT: [MessageHandler(filters.TEXT & ~filters.COMMAND, savings_statement_check)]},
         fallbacks=[],
         allow_reentry=True
     )
@@ -1268,7 +1268,7 @@ def main():
     # وضعیت کد conversation
     lottery_status_conv = ConversationHandler(
         entry_points=[MessageHandler(Filters.regex(r"^🔍\s*وضعیت کد$"), lottery_status_start)],
-        states={ASK_LOTTERY_CODE: [MessageHandler(Filters.text & ~Filters.command, check_code_status)]},
+        states={ASK_LOTTERY_CODE: [MessageHandler(filters.TEXT & ~filters.COMMAND, check_code_status)]},
         fallbacks=[],
         allow_reentry=True
     )
@@ -1277,7 +1277,7 @@ def main():
     loan_statement_conv = ConversationHandler(
         entry_points=[MessageHandler(Filters.regex("^صورتحساب وام$"), loan_statement_start)],
         states={
-            ASK_LOAN_NO: [MessageHandler(Filters.text & ~Filters.command, loan_statement_handler)]
+            ASK_LOAN_NO: [MessageHandler(filters.TEXT & ~filters.COMMAND, loan_statement_handler)]
         },
         fallbacks=[],
         allow_reentry=True
@@ -1290,7 +1290,7 @@ def main():
             MessageHandler(Filters.regex(r"^💰 گزارش پرداخت$"), ask_payment_code)
         ],
         states={
-            ASK_PAYMENT_CODE: [MessageHandler(Filters.text & ~Filters.command, show_payment_for_code)]
+            ASK_PAYMENT_CODE: [MessageHandler(filters.TEXT & ~filters.COMMAND, show_payment_for_code)]
         },
         fallbacks=[],
         allow_reentry=True
@@ -1298,10 +1298,10 @@ def main():
     dp.add_handler(payment_conv)
 
     # بقیه handlerها (پیام‌های متنی منو)
-    dp.add_handler(MessageHandler(Filters.text & ~Filters.command, menu_router))
+    dp.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, menu_router))
 
     # start polling (می‌خوای Polling بمونه چون webhook مشکلی داشت)
-    updater.start_polling()
+    application.run_polling()
     logger.info("Bot started. Polling...")
     updater.idle()
 
