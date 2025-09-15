@@ -20,6 +20,7 @@ imghdr = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(imghdr)
 sys.modules["imghdr"] = imghdr
 
+# اصلاح خط imports
 from telegram import Update, ReplyKeyboardMarkup, ReplyKeyboardRemove
 from telegram.ext import (
     Updater, CommandHandler, MessageHandler, Filters,
