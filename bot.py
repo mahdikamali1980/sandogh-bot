@@ -32,22 +32,6 @@ import re
 import os
 import logging
 
-
-
-
-from telegram import Update, ReplyKeyboardMarkup, ReplyKeyboardRemove
-from telegram.ext import (
-    Updater, CommandHandler, MessageHandler, Filters,
-    CallbackContext, ConversationHandler
-)
-import gspread
-import re
-import os
-import logging
-
-
-
-# ---------------- تنظیمات ----------------
 # ---------------- تنظیمات ----------------
 import os
 from google.oauth2.service_account import Credentials
